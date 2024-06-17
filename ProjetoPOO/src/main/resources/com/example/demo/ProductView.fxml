@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import java.net.URL?>
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.demo.controller.ProductController" spacing="15" style="-fx-background-color: #f4f4f4; -fx-padding: 20;">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+
+    <!-- Left Side: Form Inputs -->
+    <VBox spacing="15" HBox.hgrow="ALWAYS">
+        <Label text="Product Management" styleClass="header-label"/>
+
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
+
+            <TextField fx:id="nameField" promptText="Name" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="descriptionField" promptText="Description" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="brandField" promptText="Brand" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="categoryField" promptText="Category" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="listPriceField" promptText="List Price" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="costField" promptText="Cost" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        </GridPane>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="Create" onAction="#saveProduct" styleClass="action-button"/>
+            <Button text="Update" onAction="#updateProduct" styleClass="action-button"/>
+            <Button text="Delete" onAction="#deleteProduct" styleClass="action-button"/>
+        </HBox>
+    </VBox>
+
+    <!-- Right Side: Search Bar and Table -->
+    <VBox spacing="15" HBox.hgrow="ALWAYS">
+        <HBox spacing="10">
+            <TextField fx:id="searchField" promptText="Product name" HBox.hgrow="ALWAYS"/>
+            <Button text="Search" onAction="#searchProduct" styleClass="action-button"/>
+        </HBox>
+
+        <TableView fx:id="productTable" VBox.vgrow="ALWAYS">
+            <!-- Table columns will be initialized in the controller -->
+        </TableView>
+
+        <Pagination fx:id="pagination" />
+    </VBox>
+</HBox>
