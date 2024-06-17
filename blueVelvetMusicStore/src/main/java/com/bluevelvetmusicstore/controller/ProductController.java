@@ -35,7 +35,7 @@ public class ProductController {
     private ProductDAO productDAO;
     private Connection connection;
 
-    private static final int ROWS_PER_PAGE = 15;
+    private static final int ROWS_PER_PAGE = 10;
 
     public void initialize() {
         try {
