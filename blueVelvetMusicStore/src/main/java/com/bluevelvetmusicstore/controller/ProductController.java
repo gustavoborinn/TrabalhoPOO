@@ -35,7 +35,7 @@ public class ProductController {
     private ProductDAO productDAO;
     private Connection connection;
 
-    private static final int ROWS_PER_PAGE = 10;
+    private static final int ROWS_PER_PAGE = 15;
 
     public void initialize() {
         try {
@@ -160,18 +160,26 @@ public class ProductController {
         String searchQuery = searchField.getText();
         try {
             List<Product> products = productDAO.searchProducts(searchQuery);
-            productTable.getItems().setAll(products);
-            pagination.setPageCount((int) Math.ceil((double) products.size() / ROWS_PER_PAGE));
+            int pageCount = (int) Math.ceil((double) products.size() / ROWS_PER_PAGE);
+            pagination.setPageCount(pageCount);
+            pagination.setPageFactory(pageIndex -> createPageFromSearch(pageIndex, products));
         } catch (SQLException e) {
             e.printStackTrace();
             showError("Failed to search products: " + e.getMessage());
         }
     }
 
+    private VBox createPageFromSearch(int pageIndex, List<Product> products) {
+        int start = pageIndex * ROWS_PER_PAGE;
+        int end = Math.min(start + ROWS_PER_PAGE, products.size());
+        productTable.getItems().setAll(products.subList(start, end));
+        return new VBox(productTable);
+    }
+
     private void loadProducts() {
         try {
-            List<Product> products = productDAO.listProducts();
-            int pageCount = (int) Math.ceil((double) products.size() / ROWS_PER_PAGE);
+            int totalProducts = productDAO.getTotalProductCount();
+            int pageCount = (int) Math.ceil((double) totalProducts / ROWS_PER_PAGE);
             pagination.setPageCount(pageCount);
             pagination.setPageFactory(this::createPage);
         } catch (SQLException e) {
@@ -183,7 +191,7 @@ public class ProductController {
     private VBox createPage(int pageIndex) {
         int start = pageIndex * ROWS_PER_PAGE;
         try {
-            List<Product> products = productDAO.getProductsInRange(start, ROWS_PER_PAGE);
+            List<Product> products = productDAO.getProductsInRange(start, start + ROWS_PER_PAGE);
             productTable.getItems().setAll(products);
         } catch (SQLException e) {
             e.printStackTrace();

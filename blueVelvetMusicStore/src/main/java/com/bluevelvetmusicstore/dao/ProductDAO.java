@@ -121,4 +121,16 @@ public class ProductDAO {
         return product;
     }
 
+    public int getTotalProductCount() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM Product";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
+
+
 }
